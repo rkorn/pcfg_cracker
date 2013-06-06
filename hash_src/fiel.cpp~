@@ -1,0 +1,18 @@
+#include <iostream>
+#include "hashlibpp.h"
+
+using namespace std;
+
+int main()
+{
+	hashwrapper *myWrapper = new md5wrapper();
+	try
+	{
+		myWrapper->test();
+	}
+	catch(hlException &e)
+	{
+		cerr << "Blah" << endl;
+	}
+	return 0;
+}
