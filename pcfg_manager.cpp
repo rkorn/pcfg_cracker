@@ -1005,6 +1005,16 @@ bool generateRules(pqueueType *pqueue,list <pqReplacementType> *baseStructures,l
   return true;
 }
 
+void printGuess(string guess) {
+    ofstream failBit;
+    if (cout.fail()) {
+        cout.clear();
+        cout.flush();
+    }
+    
+    cout << guess << endl;
+    return;
+}
 
 int createTerminalCap(pqReplacementType *curQueueItem,long long  *maxGuesses, int workingSection, string *curOutput, string capRule) {
   list <string>::iterator it;
@@ -1021,7 +1031,9 @@ int createTerminalCap(pqReplacementType *curQueueItem,long long  *maxGuesses, in
     }
     if (workingSection==curQueueItem->replacement.size()-1) {
       if (!memoryTest) {
-          printf("%s\n",(*curOutput).c_str());
+          printGuess(*curOutput);
+          
+       //   printf("%s\n",(*curOutput).c_str());
       }
       else {
         totalGuesses++;
@@ -1043,7 +1055,8 @@ int createTerminal(pqReplacementType *curQueueItem,long long  *maxGuesses, int w
         curOutput->resize(size);
         curOutput->append(*it);
         if (workingSection==curQueueItem->replacement.size()-1) {  //print out the password guess
-          printf("%s\n",(*curOutput).c_str());
+          printGuess(*curOutput);
+//          printf("%s\n",(*curOutput).c_str());
         }
         else {
           createTerminal (curQueueItem, maxGuesses, workingSection+1, curOutput);
