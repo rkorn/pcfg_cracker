@@ -53,6 +53,7 @@
 #include <queue>
 #include <iterator>
 #include <ctype.h>
+#include <algorithm>
 
 #include "global_def.h"
 

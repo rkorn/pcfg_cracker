@@ -1021,7 +1021,7 @@ int createTerminalCap(pqReplacementType *curQueueItem,long long  *maxGuesses, in
     }
     if (workingSection==curQueueItem->replacement.size()-1) {
       if (!memoryTest) {
-        cout << *curOutput << endl;
+          printf("%s\n",(*curOutput).c_str());
       }
       else {
         totalGuesses++;
