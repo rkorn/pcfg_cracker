@@ -114,7 +114,7 @@ bool processDic(string *inputDicFileName, bool *inputDicExists, double *inputDic
             }
             if (goodWord) {
               allTheWords.push_front(tempWord);
-              numWords[i][tempWord.word_size]++;
+              //numWords[i][tempWord.word_size]++;
             }
             else {
 //              cout <<"bad word = " << tempWord.word << endl;
@@ -122,7 +122,7 @@ bool processDic(string *inputDicFileName, bool *inputDicExists, double *inputDic
           } 
           else {
             allTheWords.push_front(tempWord);
-            numWords[i][tempWord.word_size]++;
+           // numWords[i][tempWord.word_size]++;
           }
         }
       }
@@ -133,6 +133,26 @@ bool processDic(string *inputDicFileName, bool *inputDicExists, double *inputDic
   if (!atLeastOneDic) {
     return false;
   }
+  
+  //-----------------------------------------------------
+  //The following code was rearranged by Richard Korn
+  // to properly normalize the probabilities.
+  //I simply wait to increment numWords[i][tempWord.word_size] 
+  // until after having sorted and removing duplicates.
+  
+  allTheWords.sort(compareDicWords);
+  allTheWords.unique(duplicateDicWords);
+  
+  list <mainDicHolderType>::iterator itt;
+  for (int i=0; i<MAXINPUTDIC;i++) {
+    for (itt=allTheWords.begin();itt!=allTheWords.end();++itt) {
+      if ( itt->category == i)
+        numWords[i][itt->word_size]++; 
+    }
+  }
+  
+  //-------------------------------------------------------
+  
   //--Calculate probabilities --//
   for (int i=0; i<MAXINPUTDIC;i++) {
     for (int j=0; j<=MAXWORDSIZE;j++) {
@@ -149,9 +169,15 @@ bool processDic(string *inputDicFileName, bool *inputDicExists, double *inputDic
     (*it).probability = wordProb[(*it).category][(*it).word_size]; 
   }
   
-  allTheWords.sort(compareDicWords);
-  allTheWords.unique(duplicateDicWords);
+ /* allTheWords.sort(compareDicWords);
+  allTheWords.unique(duplicateDicWords);*/
+  
+ /* normalizedProb = 0.0;
+  for (it = allTheWords.begin(); it!= allTheWords.end();++it)
+    normalizedProb += it->probability;
 
+  cout <<"\n normalizedProb: " << normalizedProb << endl;
+*/
   //------Now divide the words into their own ntStructures-------//
   for (int i=0;i<=MAXWORDSIZE;i++) {
     dicWords[i]=NULL;
